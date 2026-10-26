@@ -1,0 +1,17 @@
+{
+  "name": "orangehrm-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pruebas end-to-end básicas de OrangeHRM con Playwright",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "dotenv": "^18.0.9"
+  }
+}
