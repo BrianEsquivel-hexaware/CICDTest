@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/web/index.php/auth/login');
 });
 
-test('muestra el formulario de inicio de sesión', async ({ page }) => {
+test('displays the login form', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Login' }),
   ).toBeVisible();
@@ -16,7 +16,7 @@ test('muestra el formulario de inicio de sesión', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
 });
 
-test('permite iniciar sesión con credenciales válidas', async ({ page }) => {
+test('logs in with valid credentials', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Username' }).fill(username);
   await page.getByRole('textbox', { name: 'Password' }).fill(password);
   await page.getByRole('button', { name: 'Login' }).click();
@@ -25,9 +25,9 @@ test('permite iniciar sesión con credenciales válidas', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
 });
 
-test('muestra un error con credenciales inválidas', async ({ page }) => {
-  await page.getByRole('textbox', { name: 'Username' }).fill('usuario-invalido');
-  await page.getByRole('textbox', { name: 'Password' }).fill('clave-invalida');
+test('shows an error with invalid credentials', async ({ page }) => {
+  await page.getByRole('textbox', { name: 'Username' }).fill('invalid-user');
+  await page.getByRole('textbox', { name: 'Password' }).fill('invalid-password');
   await page.getByRole('button', { name: 'Login' }).click();
 
   await expect(page.getByText('Invalid credentials')).toBeVisible();
