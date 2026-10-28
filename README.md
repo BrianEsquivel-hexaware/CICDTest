@@ -1,20 +1,20 @@
-# OrangeHRM: pruebas con Playwright
+# OrangeHRM: Playwright Tests
 
-Proyecto de ejemplo para validar el formulario de acceso de OrangeHRM y ejecutar
-las pruebas automáticamente con GitHub Actions.
+An example project for testing the OrangeHRM login form and automatically
+running the tests with GitHub Actions.
 
-## Pruebas incluidas
+## Included tests
 
-- El formulario muestra los campos y el botón de acceso.
-- El acceso correcto lleva al Dashboard.
-- Las credenciales inválidas muestran el mensaje de error.
+- The login form displays its fields and submit button.
+- Valid credentials successfully open the Dashboard.
+- Invalid credentials display an error message.
 
-Las pruebas usan selectores accesibles (`getByRole`) y no crean ni modifican
-registros de negocio en el sitio.
+The tests use accessible selectors (`getByRole`) and do not create or modify
+business records on the site.
 
-## Ejecutar localmente
+## Run locally
 
-Requisitos: Node.js 20 o superior.
+Requirements: Node.js 24.22.1.
 
 ```powershell
 npm ci
@@ -22,18 +22,18 @@ npx playwright install chromium
 npm test
 ```
 
-La configuración carga automáticamente las variables del archivo `.env` en la
-raíz del proyecto. Copia `.env.example` como `.env` y ajusta sus valores para
-usar otro sitio o credenciales. `.env` está excluido de Git; no subas
-credenciales privadas al repositorio.
+The configuration automatically loads variables from the `.env` file in the
+project root. Copy `.env.example` to `.env` and update its values to use a
+different site or credentials. `.env` is excluded from Git; do not commit
+private credentials to the repository.
 
-Para abrir el reporte HTML después de la ejecución:
+To open the HTML report after a test run:
 
 ```powershell
 npm run report
 ```
 
-Otros modos útiles:
+Other useful modes:
 
 ```powershell
 npm run test:headed
@@ -41,52 +41,50 @@ npm run test:ui
 npm run test:debug
 ```
 
-Por defecto, se usa el sitio demo y sus credenciales publicadas:
-`Admin` / `admin123`. Para cambiarlas sin editar los tests, define
-`ORANGEHRM_USERNAME`, `ORANGEHRM_PASSWORD` y, opcionalmente,
-`ORANGEHRM_BASE_URL` en el entorno.
+By default, the demo site and its published credentials are used:
+`Admin` / `admin123`. To change them without editing the tests, set
+`ORANGEHRM_USERNAME`, `ORANGEHRM_PASSWORD`, and optionally
+`ORANGEHRM_BASE_URL` in the environment.
 
-## Flujo de CI en GitHub
+## GitHub CI workflow
 
-El workflow `.github/workflows/playwright.yml` ejecuta las pruebas cuando:
+The `.github/workflows/playwright.yml` workflow runs the tests:
 
-- Se hace `push` a `main` o `master`.
-- Se abre o actualiza un Pull Request hacia `main` o `master`.
-- Se inicia manualmente desde **Actions > Playwright tests > Run workflow**.
-- Se activa la programación diaria, a las 12:00 UTC.
+- When code is pushed to `main` or `master`.
+- When a Pull Request targeting `main` or `master` is opened or updated.
+- When manually started from **Actions > Playwright tests > Run workflow**.
+- Every day at 12:00 UTC, according to the schedule.
 
-Para usar credenciales propias, configura `ORANGEHRM_USERNAME` y
-`ORANGEHRM_PASSWORD` como **Actions secrets** del repositorio, y
-`ORANGEHRM_BASE_URL` como **Actions variable** si se usará otro sitio.
-Si no se configuran, los tests usan las credenciales públicas del demo y la URL
-predeterminada del proyecto.
+To use your own credentials, configure `ORANGEHRM_USERNAME` and
+`ORANGEHRM_PASSWORD` as repository **Actions secrets**, and set
+`ORANGEHRM_BASE_URL` as an **Actions variable** if using a different site.
+Otherwise, the tests use the demo's public credentials and the project's
+default URL.
 
-El reporte y los resultados de Playwright se publican como artefacto de cada
-ejecución, incluso si algún test falla. En GitHub, se descargan desde el
-resumen de la ejecución del workflow.
+The Playwright report and results are uploaded as artifacts for each run,
+including when a test fails. Download them from the workflow run summary on
+GitHub.
 
-## Secuencia para ponerlo en marcha
+## Setup steps
 
-1. Crear un repositorio en GitHub y subir este proyecto, incluyendo
+1. Create a GitHub repository and push this project, including
    `package-lock.json`.
-2. Confirmar que **Actions** esté habilitado en el repositorio.
-3. Revisar o cambiar las credenciales y la URL en **Settings > Secrets and
+2. Make sure **Actions** is enabled for the repository.
+3. Review or update the credentials and URL under **Settings > Secrets and
    variables > Actions**.
-4. Ejecutar `npm test` localmente para comprobar el acceso al sitio.
-5. Hacer push a `main`/`master` o abrir un Pull Request; Actions ejecutará el
-   workflow y mostrará el resultado y el artefacto del reporte.
-6. Para ejecutarlo bajo demanda, usar **Actions > Playwright tests > Run
-   workflow**.
-7. Para ajustar la programación, editar la expresión `cron` del workflow. GitHub
-   interpreta estos horarios en UTC y puede retrasar ejecuciones programadas.
+4. Run `npm test` locally to verify access to the site.
+5. Push to `main`/`master` or open a Pull Request. Actions will run the workflow
+   and show the result and report artifact.
+6. To run it on demand, use **Actions > Playwright tests > Run workflow**.
+7. To change the schedule, edit the workflow's `cron` expression. GitHub uses
+   UTC for scheduled runs, which may be delayed.
 
-## Siguientes pasos recomendados
+## Recommended next steps
 
-- Si el flujo se adopta como protección de cambios, configurar una regla de
-  protección de rama que requiera el job **End-to-end tests**.
-- Añadir navegadores o dispositivos adicionales cuando el alcance de pruebas lo
-  requiera; por ahora, CI instala solo Chromium.
-- Usar un entorno de pruebas propio para mayor estabilidad: el sitio demo es
-  externo, compartido y puede cambiar o no estar disponible.
-- Si se necesita CD, definir primero el entorno y el proceso de despliegue;
-  este ejemplo implementa CI y no despliega la aplicación.
+- If this workflow should be required for changes, configure a branch
+  protection rule that requires the **End-to-end tests** job.
+- Add browsers or devices as needed; CI currently installs only Chromium.
+- Use a dedicated test environment for greater stability: the demo site is
+  external, shared, and may change or become unavailable.
+- If CD is needed, first define the target environment and deployment process;
+  this example provides CI and does not deploy the application.
