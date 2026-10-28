@@ -8,11 +8,13 @@
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
     "@types/node": "^26.6.5",
-    "dotenv": "^18.0.9"
+    "dotenv": "^18.0.9",
+    "typescript": "^7.0.2"
   }
 }

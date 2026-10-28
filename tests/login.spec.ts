@@ -17,8 +17,12 @@ test('displays the login form', async ({ page }) => {
 });
 
 test('logs in with valid credentials', async ({ page }) => {
-  await page.getByRole('textbox', { name: 'Username' }).fill(username);
-  await page.getByRole('textbox', { name: 'Password' }).fill(password);
+  if (username && password) {
+    await page.getByRole('textbox', { name: 'Username' }).fill(username);
+    await page.getByRole('textbox', { name: 'Password' }).fill(password);
+  } else {
+    throw new Error('Missing ORANGEHRM_USERNAME or ORANGEHRM_PASSWORD environment variable');
+  }
   await page.getByRole('button', { name: 'Login' }).click();
 
   await expect(page).toHaveURL(/\/dashboard\/index/);
