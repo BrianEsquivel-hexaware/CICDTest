@@ -11,9 +11,7 @@ export default defineConfig({
   workers: isCI ? 2 : undefined,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
-    baseURL:
-      process.env.ORANGEHRM_BASE_URL ||
-      'https://opensource-demo.orangehrmlive.com',
+    baseURL: process.env.ORANGEHRM_BASE_URL,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     ...devices['Desktop Chrome'],
