@@ -16,7 +16,7 @@ test('displays the login form', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
 });
 
-test('logs in with valid credentials ', async ({ page }) => {
+test('logs in with valid credentials', async ({ page }) => {
   if (username && password) {
     await page.getByRole('textbox', { name: 'Username' }).fill(username);
     await page.getByRole('textbox', { name: 'Password' }).fill(password);
